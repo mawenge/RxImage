@@ -1,19 +1,17 @@
-apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
-
-
-
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
+
     defaultConfig {
-        applicationId "com.image.rx.rximage"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -24,17 +22,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-
-    compile rootProject.ext.dependencies["appcompat-v7"]
-    compile rootProject.ext.dependencies["butterknife"]
-    apt rootProject.ext.dependencies["butterknife-compiler"]
-
-
-
-
+    compile rootProject.ext.dependencies["retrofit"]
+    compile rootProject.ext.dependencies["rxjava"]
 }

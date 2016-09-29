@@ -1,0 +1,18 @@
+ext{
+
+        dependencies = [
+                "appcompat-v7" : "com.android.support:appcompat-v7:23.4.0",
+                "retrofit" : "com.squareup.retrofit2:retrofit:2.1.0",
+                "rxjava" : "io.reactivex:rxjava:1.2.0",
+                "butterknife" : "com.jakewharton:butterknife:8.4.0",
+                "butterknife-compiler" : "com.jakewharton:butterknife-compiler:8.4.0"
+
+
+        ]
+
+
+
+
+
+
+}
