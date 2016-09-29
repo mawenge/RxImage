@@ -22,11 +22,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
     compile rootProject.ext.dependencies["retrofit"]
     compile rootProject.ext.dependencies["rxjava"]
+    compile 'com.squareup.retrofit2:retrofit-adapters:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 }
