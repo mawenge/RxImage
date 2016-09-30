@@ -10,10 +10,8 @@ import java.util.List;
  * Created by Administrator on 2016/9/29.
  */
 
-public class PhotoResponse {
-    @Expose
-    @SerializedName("status")
-    boolean status;
+public class PhotoResponse extends CommonResponse{
+
     @Expose
     @SerializedName("total")
     int total;
@@ -22,13 +20,6 @@ public class PhotoResponse {
     List<Gallery> photoList;
 
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
 
     public int getTotal() {
         return total;

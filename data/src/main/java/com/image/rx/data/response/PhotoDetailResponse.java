@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Administrator on 2016/9/29.
  */
 
-public class PhotoDetailResponse {
+public class PhotoDetailResponse extends CommonResponse{
     PhotoResponse photoResponse;
     @SerializedName("list")
     List<com.image.rx.data.entity.Picture> pictures;

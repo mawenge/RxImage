@@ -63,19 +63,15 @@ public class ServiceRest {
     }
 
     public Observable<List<Gallery>> getPhotoList(int page, int rows, long id){
-        return photoService.getPhotoList(page, rows, id).map(new Func1<PhotoResponse, List<Gallery>>() {
+        return photoService.getPhotoList(page, rows, id).compose(new Observable.Transformer<PhotoResponse, List<Gallery>>() {
             @Override
-            public List<Gallery> call(PhotoResponse photoResponse) {
-                if (!photoResponse.isStatus()){
-                    try {
-                        throw new Exception("");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            public Observable<List<Gallery>> call(Observable<PhotoResponse> photoResponseObservable) {
+                return photoResponseObservable.map(new Func1<PhotoResponse, List<Gallery>>() {
+                    @Override
+                    public List<Gallery> call(PhotoResponse photoResponse) {
+                        return null;
                     }
-                }
-
-                return photoResponse.getPhotoList();
-
+                });
             }
         });
     }
