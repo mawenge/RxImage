@@ -11,6 +11,7 @@ import com.image.rx.data.response.PhotoResponse;
 import com.image.rx.data.rxjava.util.TransformerProvider;
 import java.util.List;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.functions.Func1;
@@ -40,6 +41,7 @@ public class ServiceRest {
         Retrofit retrofit = new Retrofit.Builder().
                 baseUrl(Constant.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(SingletonOkHttpClient.getInstance())
                 .build();
 

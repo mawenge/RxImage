@@ -33,4 +33,5 @@ dependencies {
     compile rootProject.ext.dependencies["butterknife"]
     compile rootProject.ext.dependencies["glide"]
     apt rootProject.ext.dependencies["butterknife-compiler"]
+    compile project(':domain')
 }
