@@ -5,6 +5,6 @@ package com.image.rx.data;
  */
 
 public class Constant {
-    public static final String BASE_URL = "www.tngou.net/tnfs/api";
+    public static final String BASE_URL = "http://www.tngou.net/tnfs/api/";
     public static final String IMAGE_BASE_URL = "http://tnfs.tngou.net/image";
 }

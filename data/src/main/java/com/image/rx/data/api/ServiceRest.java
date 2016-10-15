@@ -8,6 +8,7 @@ import com.image.rx.data.entity.Gallery;
 import com.image.rx.data.entity.Picture;
 import com.image.rx.data.response.PhotoDetailResponse;
 import com.image.rx.data.response.PhotoResponse;
+import com.image.rx.data.rxjava.util.ErrorHandleFunc;
 import com.image.rx.data.rxjava.util.TransformerProvider;
 import java.util.List;
 import retrofit2.Retrofit;
@@ -29,7 +30,7 @@ public class ServiceRest {
     }
 
     public static ServiceRest getInstance(){
-        return SingletonHolder.instance;
+        return new ServiceRest();
     }
 
     private ServiceRest(){
@@ -58,7 +59,11 @@ public class ServiceRest {
      * @return
      */
     public Observable<List<Gallery>> getPhotoList(int page, int rows){
-        return photoService.getPhotoList(page, rows).map(new Func1<PhotoResponse, List<Gallery>>() {
+        return photoService.getPhotoList(page, rows)
+                .compose(TransformerProvider.<PhotoResponse>getErrorDetectorTransformer())
+                .compose(TransformerProvider.<PhotoResponse>getSwitchSchedulers())
+                .onErrorResumeNext(new ErrorHandleFunc<PhotoResponse>())
+                .map(new Func1<PhotoResponse, List<Gallery>>() {
             @Override
             public List<Gallery> call(PhotoResponse photoResponse) {
                 return photoResponse.getPhotoList();
@@ -76,6 +81,8 @@ public class ServiceRest {
     public Observable<List<Gallery>> getPhotoList(int page, int rows, long id){
         return photoService.getPhotoList(page, rows, id)
                 .compose(TransformerProvider.<PhotoResponse>getErrorDetectorTransformer())
+                .compose(TransformerProvider.<PhotoResponse>getSwitchSchedulers())
+                .onErrorResumeNext(new ErrorHandleFunc<PhotoResponse>())
                 .map(new Func1<PhotoResponse, List<Gallery>>() {
                     @Override
                     public List<Gallery> call(PhotoResponse photoResponse) {
@@ -92,6 +99,8 @@ public class ServiceRest {
     public Observable<List<Picture>> getPictureList(long id){
         return photoService.getPictureList(id)
                 .compose(TransformerProvider.<PhotoDetailResponse>getErrorDetectorTransformer())
+                .compose(TransformerProvider.<PhotoDetailResponse>getSwitchSchedulers())
+                .onErrorResumeNext(new ErrorHandleFunc<PhotoDetailResponse>())
                 .map(new Func1<PhotoDetailResponse, List<Picture>>() {
             @Override
             public List<Picture> call(PhotoDetailResponse photoDetailResponse) {

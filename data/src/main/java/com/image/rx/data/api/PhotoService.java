@@ -15,13 +15,13 @@ import rx.Observable;
 
 public interface PhotoService {
 
-    @GET("/list")
+    @GET("list")
     Observable<PhotoResponse> getPhotoList(@Query("page") int page, @Query("rows") int rows);
 
-    @GET("/list")
+    @GET("list")
     Observable<PhotoResponse> getPhotoList(@Query("page") int page, @Query("rows") int rows, @Query("id") long id);
 
-    @GET("/show")
+    @GET("show")
     Observable<PhotoDetailResponse> getPictureList(@Query("id") long id);
 
 

@@ -3,10 +3,12 @@ package com.image.rx.data.rxjava.util;
 import android.util.Log;
 
 import com.image.rx.data.response.CommonResponse;
-import com.image.rx.data.rxjava.exception.ResponseException;
+import com.image.rx.data.rxjava.exception.ResponseThrowable;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/9/30.
@@ -31,8 +33,8 @@ public class TransformerProvider {
                         if (!t.isStatus()){
                             try {
                                 Log.d(TAG, "服务器返回错误！");
-                                throw new ResponseException("服务器返回错误！");
-                            } catch (ResponseException e) {
+                                throw new ResponseThrowable("服务器返回错误！");
+                            } catch (ResponseThrowable e) {
                                 e.printStackTrace();
                             }
                         }
@@ -44,7 +46,15 @@ public class TransformerProvider {
     }
 
 
-
+    public static <T>Observable.Transformer<T, T> getSwitchSchedulers() {
+        return new Observable.Transformer<T, T>() {
+            @Override
+            public Observable<T> call(Observable<T> tObservable) {
+                return tObservable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    };
 
 
 
