@@ -27,8 +27,7 @@
         android:src="@mipmap/ic_launcher"
         android:id="@+id/front_pic"
         android:layout_marginTop="30dp"
-        android:scaleType="fitXY"
-        android:maxHeight="120dp"/>
+        />
 
 
 </android.support.v7.widget.CardView>

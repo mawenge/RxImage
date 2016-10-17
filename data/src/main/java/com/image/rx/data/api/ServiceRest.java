@@ -30,7 +30,7 @@ public class ServiceRest {
     }
 
     public static ServiceRest getInstance(){
-        return new ServiceRest();
+        return SingletonHolder.instance;
     }
 
     private ServiceRest(){

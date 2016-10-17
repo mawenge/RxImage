@@ -1,6 +1,5 @@
 package com.image.rx.rximage.view.main_page;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,13 +9,14 @@ import android.support.v7.widget.Toolbar;
 import com.image.rx.data.entity.Gallery;
 import com.image.rx.rximage.R;
 import com.image.rx.rximage.adapter.MainPageAdapter;
+import com.image.rx.rximage.view.BaseActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainPageActivity extends AppCompatActivity implements MainPageContract.View{
+public class MainPageActivity extends BaseActivity implements MainPageContract.View{
 
     @BindView(R.id.tool_bar)
     Toolbar toolbar;

@@ -70,7 +70,7 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MainPa
 
         public void setContent(String title, String url){
             this.title.setText(title);
-            Glide.with(this.title.getContext()).load(Constant.IMAGE_BASE_URL + url + "_300x200")
+            Glide.with(this.title.getContext()).load(Constant.IMAGE_BASE_URL + url)
                     .into(image);
         }
     }
