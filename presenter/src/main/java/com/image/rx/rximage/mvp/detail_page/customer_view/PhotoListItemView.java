@@ -1,4 +1,4 @@
-package com.image.rx.rximage.view.detail_page.customer_view;
+package com.image.rx.rximage.mvp.detail_page.customer_view;
 
 import android.content.Context;
 import android.util.AttributeSet;

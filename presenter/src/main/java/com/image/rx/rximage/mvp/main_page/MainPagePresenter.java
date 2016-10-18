@@ -1,6 +1,5 @@
-package com.image.rx.rximage.view.main_page;
+package com.image.rx.rximage.mvp.main_page;
 
-import com.bumptech.glide.util.ContentLengthInputStream;
 import com.image.rx.data.entity.Gallery;
 import com.image.rx.data.rxjava.exception.ApiException;
 import com.image.rx.data.rxjava.util.CommonSubscriber;

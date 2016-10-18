@@ -1,4 +1,4 @@
-package com.image.rx.rximage.view.main_page;
+package com.image.rx.rximage.mvp.main_page;
 
 import com.image.rx.data.entity.Gallery;
 import com.image.rx.rximage.BasePresenter;

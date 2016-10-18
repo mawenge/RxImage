@@ -1,4 +1,4 @@
-package com.image.rx.rximage.view;
+package com.image.rx.rximage.mvp;
 
 import android.support.v7.app.AppCompatActivity;
 

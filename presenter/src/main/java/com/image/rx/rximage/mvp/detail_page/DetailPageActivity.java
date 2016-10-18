@@ -1,13 +1,12 @@
-package com.image.rx.rximage.view.detail_page;
+package com.image.rx.rximage.mvp.detail_page;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import com.image.rx.rximage.R;
 import com.image.rx.rximage.adapter.DetailPagerAdapter;
-import com.image.rx.rximage.view.BaseActivity;
+import com.image.rx.rximage.mvp.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

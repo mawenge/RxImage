@@ -1,12 +1,11 @@
 package com.image.rx.rximage.adapter;
 
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.image.rx.data.entity.Picture;
-import com.image.rx.rximage.view.detail_page.customer_view.PhotoListItemView;
+import com.image.rx.rximage.mvp.detail_page.customer_view.PhotoListItemView;
 
 import java.util.List;
 

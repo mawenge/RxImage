@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.main_page.MainPageActivity">
+        <activity android:name=".mvp.main_page.MainPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

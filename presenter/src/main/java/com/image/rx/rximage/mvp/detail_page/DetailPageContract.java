@@ -1,11 +1,7 @@
-package com.image.rx.rximage.view.detail_page;
+package com.image.rx.rximage.mvp.detail_page;
 
-import com.image.rx.data.entity.Gallery;
 import com.image.rx.rximage.BasePresenter;
 import com.image.rx.rximage.BaseView;
-import com.image.rx.rximage.view.main_page.MainPageContract;
-
-import java.util.List;
 
 import rx.Subscription;
 
