@@ -1,7 +1,6 @@
-package com.image.rx.rximage.view.main_page;
+package com.image.rx.rximage.mvp.main_page;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -9,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import com.image.rx.data.entity.Gallery;
 import com.image.rx.rximage.R;
 import com.image.rx.rximage.adapter.MainPageAdapter;
-import com.image.rx.rximage.view.BaseActivity;
+import com.image.rx.rximage.mvp.BaseActivity;
 
 import java.util.List;
 

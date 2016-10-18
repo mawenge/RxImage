@@ -1,6 +1,4 @@
-package com.image.rx.rximage.view.detail_page;
-
-import com.image.rx.rximage.view.main_page.MainPageContract;
+package com.image.rx.rximage.mvp.detail_page;
 
 import rx.Subscription;
 
