@@ -1,22 +1,47 @@
 package com.image.rx.rximage.adapter;
 
+import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.GenericRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.ResourceDecoder;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.Resource;
+import com.bumptech.glide.load.model.StreamEncoder;
+import com.bumptech.glide.load.model.stream.StreamUriLoader;
+import com.bumptech.glide.load.resource.SimpleResource;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
 import com.image.rx.data.Constant;
 import com.image.rx.data.entity.Gallery;
+import com.image.rx.domain.usercase.NetWorkDataUserCase;
 import com.image.rx.rximage.MessageEvent.LoadNextPageEvent;
 import com.image.rx.rximage.R;
+import com.image.rx.rximage.glide.LoggingListener;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Administrator on 2016/10/15.
@@ -27,6 +52,20 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MainPa
     private List<Gallery> list = new ArrayList<>();
     private final int PRE_LOAD_NUM = 5;
     private boolean isLoadingNext = false;
+    GenericRequestBuilder<Uri, InputStream, BitmapFactory.Options, BitmapFactory.Options> SIZE_REQUEST;
+
+    public MainPageAdapter() {
+//        SIZE_REQUEST = Glide // cache for effectiveness (re-use in lists for example) and readability at usage
+//                .with(this)
+//                .using(new StreamUriLoader(activity), InputStream.class)
+//                .from(Uri.class)
+//                .as(BitmapFactory.Options.class)
+//                .sourceEncoder(new StreamEncoder())
+//                .cacheDecoder(new BitmapSizeDecoder())
+//                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                .listener(new LoggingListener<Uri, BitmapFactory.Options>())
+        ;
+    }
 
     @Override
     public MainPageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -62,16 +101,53 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MainPa
         TextView title;
         ImageView image;
 
-        public MainPageViewHolder(View itemView) {
+        MainPageViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
             image = (ImageView) itemView.findViewById(R.id.front_pic);
         }
 
-        public void setContent(String title, String url){
+        void setContent(String title, String url){
+
             this.title.setText(title);
-            Glide.with(this.title.getContext()).load(Constant.IMAGE_BASE_URL + url)
+            // get original size
+            final FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) image.getLayoutParams();
+            Glide.with(this.title.getContext())
+                    .using(new StreamUriLoader(this.title.getContext()), InputStream.class)
+                    .from(Uri.class)
+                    .as(BitmapFactory.Options.class)
+                    .sourceEncoder(new StreamEncoder())
+                    .cacheDecoder(new BitmapSizeDecoder())
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .listener(new LoggingListener<Uri, BitmapFactory.Options>())
+                    .load(new Uri.Builder().scheme(Constant.IMAGE_BASE_URL + url).build())
+                    .into(new SimpleTarget<BitmapFactory.Options>() { // Target.SIZE_ORIGINAL is hidden in ctor
+                        @Override public void onResourceReady(BitmapFactory.Options resource, GlideAnimation glideAnimation) {
+                            Log.wtf("SIZE", String.format(Locale.ROOT, "%dx%d", resource.outWidth, resource.outHeight));
+
+                            params.height = (int) ((float)resource.outHeight / resource.outWidth * params.width);
+                            image.setLayoutParams(params);
+                        }
+                    })
+            ;
+            Glide.with(this.title.getContext())
+                    .load(Constant.IMAGE_BASE_URL + url)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .listener(new LoggingListener<String, GlideDrawable>())
                     .into(image);
+        }
+    }
+
+
+    class BitmapSizeDecoder implements ResourceDecoder<File, BitmapFactory.Options> {
+        @Override public Resource<BitmapFactory.Options> decode(File source, int width, int height) throws IOException {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(source.getAbsolutePath(), options);
+            return new SimpleResource<>(options);
+        }
+        @Override public String getId() {
+            return getClass().getName();
         }
     }
 

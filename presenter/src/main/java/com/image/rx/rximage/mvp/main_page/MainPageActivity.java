@@ -1,6 +1,7 @@
 package com.image.rx.rximage.mvp.main_page;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscription;
 
 public class MainPageActivity extends BaseActivity implements MainPageContract.View{
 
@@ -22,6 +24,10 @@ public class MainPageActivity extends BaseActivity implements MainPageContract.V
 
     @BindView(R.id.main_page_list)
     RecyclerView recyclerView;
+
+    @BindView(R.id.swipe_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     private MainPageContract.Presenter mPresenter;
     private MainPageAdapter galleryAdapter;
 
@@ -33,6 +39,7 @@ public class MainPageActivity extends BaseActivity implements MainPageContract.V
         mPresenter.attachView(this);
         ButterKnife.bind(this);
         initView();
+        mPresenter.loadGalleryList(1);
     }
 
     private void initView() {
@@ -44,29 +51,38 @@ public class MainPageActivity extends BaseActivity implements MainPageContract.V
         recyclerView.setAdapter(galleryAdapter);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.refreshGalleryList();
+            }
+        });
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.loadGalleryList(1);
-
     }
 
     @Override
     public void showLoading() {
-
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void addGalleryList(List<Gallery> list) {
-        galleryAdapter.addPages(list, false);
+    public void addGalleryList(List<Gallery> list, boolean needClear) {
+        galleryAdapter.addPages(list, needClear);
+    }
+
+    @Override
+    public void collectSubscription(Subscription subscription) {
+        addSubscription(subscription);
     }
 
     @Override

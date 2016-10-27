@@ -9,14 +9,9 @@ import com.image.rx.domain.usercase.NetWorkDataUserCase;
  */
 
 public class MZApplication extends Application {
-    private NetWorkDataUserCase netWorkDataUserCase;
     @Override
     public void onCreate() {
         super.onCreate();
-        netWorkDataUserCase = new NetWorkDataUserCase();
     }
 
-    public NetWorkDataUserCase getNetWorkDataUserCase() {
-        return netWorkDataUserCase;
-    }
 }

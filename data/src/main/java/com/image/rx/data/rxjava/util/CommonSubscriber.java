@@ -15,7 +15,9 @@ public abstract class CommonSubscriber<T> implements Observer<T> {
         if(e instanceof ApiException){
             onError((ApiException)e);
         }else{
-            onError(new ApiException(e,123));
+            ApiException exception = new ApiException(e, 123);
+            exception.message = e.getMessage();
+            onError(exception);
         }
     }
     /**

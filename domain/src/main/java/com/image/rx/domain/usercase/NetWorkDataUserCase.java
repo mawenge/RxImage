@@ -14,15 +14,15 @@ import rx.Observable;
 
 public class NetWorkDataUserCase {
 
-    public Observable<List<Gallery>> getFrontPhotoList(int page, int rows){
+    public static Observable<List<Gallery>> getFrontPhotoList(int page, int rows){
         return ServiceRest.getInstance().getPhotoList(page, rows);
     }
 
-    public Observable<List<Gallery>> getFrontPhotoList(int page, int rows, long id){
+    public static Observable<List<Gallery>> getFrontPhotoList(int page, int rows, long id){
         return ServiceRest.getInstance().getPhotoList(page, rows, id);
     }
 
-    public Observable<List<Picture>> getDetailPictureList(long id){
+    public static Observable<List<Picture>> getDetailPictureList(long id){
         return ServiceRest.getInstance().getPictureList(id);
     }
 

@@ -66,7 +66,11 @@ public class ServiceRest {
                 .map(new Func1<PhotoResponse, List<Gallery>>() {
             @Override
             public List<Gallery> call(PhotoResponse photoResponse) {
-                return photoResponse.getPhotoList();
+                if (photoResponse.getPhotoList() != null){
+                    return photoResponse.getPhotoList();
+                }
+                return null;
+
             }
         });
     }
