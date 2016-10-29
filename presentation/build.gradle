@@ -39,4 +39,5 @@ dependencies {
     compile rootProject.ext.dependencies["eventbus"]
     compile rootProject.ext.dependencies["photoview"]
     compile project(':domain')
+    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
 }

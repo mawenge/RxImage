@@ -2,6 +2,7 @@ package com.image.rx.data.response;
 
 import android.graphics.Picture;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -11,17 +12,33 @@ import java.util.List;
  */
 
 public class PhotoDetailResponse extends CommonResponse{
-    PhotoResponse photoResponse;
+
+    @Expose
     @SerializedName("list")
     List<com.image.rx.data.entity.Picture> pictures;
 
+    @Expose
+    @SerializedName("title")
+    String title;
 
-    public PhotoResponse getPhotoResponse() {
-        return photoResponse;
+    @Expose
+    @SerializedName("size")
+    int size;
+
+    public String getTitle() {
+        return title;
     }
 
-    public void setPhotoResponse(PhotoResponse photoResponse) {
-        this.photoResponse = photoResponse;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public List<com.image.rx.data.entity.Picture> getPictures() {

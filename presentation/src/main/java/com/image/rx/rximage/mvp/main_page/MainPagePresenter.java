@@ -23,10 +23,6 @@ public class MainPagePresenter implements MainPageContract.Presenter {
     private int currentType = -1;
     private int currentPage = 1;
 
-    @Override
-    public void attachView(MainPageContract.View view) {
-        mView = view;
-    }
 
     @Override
     public void loadGalleryList(final int page) {
@@ -77,8 +73,8 @@ public class MainPagePresenter implements MainPageContract.Presenter {
 
 
     @Override
-    public void onCreate() {
-
+    public void onCreate(MainPageContract.View mView) {
+        this.mView = mView;
     }
 
     @Override

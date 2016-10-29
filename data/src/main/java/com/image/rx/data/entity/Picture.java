@@ -42,4 +42,9 @@ public class  Picture {
     public void setSrc(String src) {
         this.src = src;
     }
+
+    @Override
+    public String toString() {
+        return "src : " + src;
+    }
 }

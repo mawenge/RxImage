@@ -8,8 +8,15 @@ import android.support.v7.widget.Toolbar;
 
 import com.image.rx.data.entity.Gallery;
 import com.image.rx.rximage.R;
+import com.image.rx.rximage.adapter.DetailPagerAdapter;
 import com.image.rx.rximage.adapter.MainPageAdapter;
 import com.image.rx.rximage.mvp.BaseActivity;
+import com.image.rx.rximage.mvp.detail_page.DetailPageActivity;
+import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
+import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerViewAdapter;
+import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxAdapter;
+import com.jakewharton.rxbinding.widget.RxAdapterView;
 
 import java.util.List;
 
@@ -36,7 +43,7 @@ public class MainPageActivity extends BaseActivity implements MainPageContract.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mPresenter = new MainPagePresenter();
-        mPresenter.attachView(this);
+        mPresenter.onCreate(this);
         ButterKnife.bind(this);
         initView();
         mPresenter.loadGalleryList(1);
@@ -57,6 +64,14 @@ public class MainPageActivity extends BaseActivity implements MainPageContract.V
                 mPresenter.refreshGalleryList();
             }
         });
+        galleryAdapter.setOnGalleryClickedListener(new MainPageAdapter.OnGalleryClickedListener() {
+            @Override
+            public void onGalleryClicked(long id, String galleryUrl) {
+                DetailPageActivity.navigateToDetailPageActivity(MainPageActivity.this, id, galleryUrl);
+            }
+        });
+
+
     }
 
 

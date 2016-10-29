@@ -4,9 +4,9 @@ package com.image.rx.rximage;
  * Created by Administrator on 2016/10/15.
  */
 
-public interface BasePresenter {
+public interface BasePresenter<T extends BaseView> {
 
-    void onCreate();
+    void onCreate(T mView);
     void onDestroy();
     void onStart();
     void onPause();

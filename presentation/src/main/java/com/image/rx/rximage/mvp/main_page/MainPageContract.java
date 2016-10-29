@@ -13,15 +13,14 @@ import rx.Subscription;
  */
 
 public interface MainPageContract {
-    interface View extends BaseView{
+    interface View extends BaseView<Presenter>{
         void showLoading();
         void hideLoading();
         void addGalleryList(List<Gallery> list, boolean needClear);
-        void collectSubscription(Subscription subscription);
 
     }
-    interface  Presenter extends BasePresenter{
-        void attachView(View view);
+    interface  Presenter extends BasePresenter<View>{
+
         void loadGalleryList(int page);
         void loadGalleryListOfType(int page, long type);
         void refreshGalleryList();

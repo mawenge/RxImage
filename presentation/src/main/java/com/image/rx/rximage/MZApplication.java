@@ -9,9 +9,15 @@ import com.image.rx.domain.usercase.NetWorkDataUserCase;
  */
 
 public class MZApplication extends Application {
+    private static MZApplication instance;
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
     }
 
+
+    public static MZApplication getInstance() {
+        return instance;
+    }
 }

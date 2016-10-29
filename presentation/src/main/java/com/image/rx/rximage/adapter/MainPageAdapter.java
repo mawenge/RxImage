@@ -33,6 +33,7 @@ import com.image.rx.domain.usercase.NetWorkDataUserCase;
 import com.image.rx.rximage.MessageEvent.LoadNextPageEvent;
 import com.image.rx.rximage.R;
 import com.image.rx.rximage.glide.LoggingListener;
+import com.jakewharton.rxbinding.view.RxView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -42,6 +43,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import rx.functions.Action1;
 
 /**
  * Created by Administrator on 2016/10/15.
@@ -53,6 +57,11 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MainPa
     private final int PRE_LOAD_NUM = 5;
     private boolean isLoadingNext = false;
     GenericRequestBuilder<Uri, InputStream, BitmapFactory.Options, BitmapFactory.Options> SIZE_REQUEST;
+    private OnGalleryClickedListener onGalleryClickedListener;
+
+    public void setOnGalleryClickedListener(OnGalleryClickedListener onGalleryClickedListener) {
+        this.onGalleryClickedListener = onGalleryClickedListener;
+    }
 
     public MainPageAdapter() {
 //        SIZE_REQUEST = Glide // cache for effectiveness (re-use in lists for example) and readability at usage
@@ -105,6 +114,17 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MainPa
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
             image = (ImageView) itemView.findViewById(R.id.front_pic);
+
+            RxView.clicks(itemView).throttleFirst(1, TimeUnit.SECONDS)
+                    .subscribe(new Action1<Void>() {
+                        @Override
+                        public void call(Void aVoid) {
+                            if (onGalleryClickedListener != null){
+                                Gallery gallery = list.get(MainPageViewHolder.this.getAdapterPosition());
+                                onGalleryClickedListener.onGalleryClicked(gallery.getId(), gallery.getImg());
+                            }
+                        }
+                    });
         }
 
         void setContent(String title, String url){
@@ -112,24 +132,24 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MainPa
             this.title.setText(title);
             // get original size
             final FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) image.getLayoutParams();
-            Glide.with(this.title.getContext())
-                    .using(new StreamUriLoader(this.title.getContext()), InputStream.class)
-                    .from(Uri.class)
-                    .as(BitmapFactory.Options.class)
-                    .sourceEncoder(new StreamEncoder())
-                    .cacheDecoder(new BitmapSizeDecoder())
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .listener(new LoggingListener<Uri, BitmapFactory.Options>())
-                    .load(new Uri.Builder().scheme(Constant.IMAGE_BASE_URL + url).build())
-                    .into(new SimpleTarget<BitmapFactory.Options>() { // Target.SIZE_ORIGINAL is hidden in ctor
-                        @Override public void onResourceReady(BitmapFactory.Options resource, GlideAnimation glideAnimation) {
-                            Log.wtf("SIZE", String.format(Locale.ROOT, "%dx%d", resource.outWidth, resource.outHeight));
-
-                            params.height = (int) ((float)resource.outHeight / resource.outWidth * params.width);
-                            image.setLayoutParams(params);
-                        }
-                    })
-            ;
+//            Glide.with(this.title.getContext())
+//                    .using(new StreamUriLoader(this.title.getContext()), InputStream.class)
+//                    .from(Uri.class)
+//                    .as(BitmapFactory.Options.class)
+//                    .sourceEncoder(new StreamEncoder())
+//                    .cacheDecoder(new BitmapSizeDecoder())
+//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                    .listener(new LoggingListener<Uri, BitmapFactory.Options>())
+//                    .load(new Uri.Builder().scheme(Constant.IMAGE_BASE_URL + url).build())
+//                    .into(new SimpleTarget<BitmapFactory.Options>() { // Target.SIZE_ORIGINAL is hidden in ctor
+//                        @Override public void onResourceReady(BitmapFactory.Options resource, GlideAnimation glideAnimation) {
+//                            Log.wtf("SIZE", String.format(Locale.ROOT, "%dx%d", resource.outWidth, resource.outHeight));
+//
+//                            params.height = (int) ((float)resource.outHeight / resource.outWidth * params.width);
+//                            image.setLayoutParams(params);
+//                        }
+//                    })
+//            ;
             Glide.with(this.title.getContext())
                     .load(Constant.IMAGE_BASE_URL + url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -149,6 +169,10 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MainPa
         @Override public String getId() {
             return getClass().getName();
         }
+    }
+
+    public interface OnGalleryClickedListener{
+        void onGalleryClicked(long id, String galleryUrl);
     }
 
 }
