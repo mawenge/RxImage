@@ -20,7 +20,7 @@
         android:singleLine="true"
         android:gravity="center_vertical"
         android:ellipsize="end"/>
-    <ImageView
+    <com.image.rx.rximage.mvp.main_page.customer_view.ScaledImageView
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:adjustViewBounds="true"

@@ -54,7 +54,7 @@ public class MainPageActivity extends BaseActivity implements MainPageContract.V
                 StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        galleryAdapter = new MainPageAdapter();
+        galleryAdapter = new MainPageAdapter(this);
         recyclerView.setAdapter(galleryAdapter);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
